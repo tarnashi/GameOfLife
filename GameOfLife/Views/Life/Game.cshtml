@@ -1,0 +1,128 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link href="~/Content/style.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+    <script type="text/javascript">
+        function GetCurrentField() {
+            $.ajax
+            ({
+                dataType: "json",
+                url: "/Life/GetCurrentField",
+                type: "GET",
+                cashe: false,
+                success: function(data) {
+                    DrawField(data);
+                },
+            });
+        }
+
+        function DrawField(F) {
+            var st = "";
+            //идем построчно; в F.ArrayCurrent же массив хранится постолбцово
+            for (var j = 0; j < F.height; j++) {
+                for (var i = 0; i < F.width; i++) {
+                    st += "<div id='x" + i + "y" + j + "' onclick='ChangeCell(" + i + ", " + j + ")'";
+                    if (F.ArrayCurrent[i * F.height + j] == true) {
+                        st += " class='alive'>";
+                    } else {
+                        st += " class='dead'>";
+                    }
+                    st += "</div>";
+                }
+                st += "<br>";
+            }
+            document.getElementById("Field").innerHTML = st;
+        }
+
+        function ChangeCell(x, y) {
+            $.ajax
+            ({
+                dataType: "json",
+                url: "/Life/ChangeCell",
+                type: "POST",
+                data: "x=" + x + "&y=" + y,
+                cashe: false,
+                success: function(data) {
+                    DrawField(data);
+                },
+            });
+        }
+
+        function MakeMove(x, y) {
+            $.ajax
+            ({
+                dataType: "json",
+                url: "/Life/MakeMove",
+                type: "GET",
+                cashe: false,
+                success: function(data) {
+                    DrawField(data);
+                },
+            });
+        }
+
+        function ClearField() {
+            $.ajax
+            ({
+                dataType: "json",
+                url: "/Life/ClearField",
+                type: "GET",
+                cashe: false,
+                success: function (data) {
+                    DrawField(data);
+                },
+            });
+        }
+
+        //pvlt note
+        //переписать (проверка размера поля дожна быть не запросом, а внутри GetPlaner в контроллере) или убрать
+        function GetPlaner() {
+            $.ajax
+            ({
+                dataType: "json",
+                url: "/Life/GetCurrentField",
+                type: "GET",
+                cashe: false,
+                success: function (data) {
+                    if (data.width < 3 || data.height < 3) {
+                        alert('Слишком маленькое поле :(');
+                        return;
+                    } else {
+                        $.ajax
+                        ({
+                            dataType: "json",
+                            url: "/Life/GetPlaner",
+                            type: "GET",
+                            cashe: false,
+                            success: function (data) {
+                                DrawField(data);
+                            },
+                        });
+                    }
+                },
+            });
+        }
+
+        $(document).ready(GetCurrentField());
+
+    </script>
+
+    <title>Игра</title>
+</head>
+<body>
+    <input type="button" onclick="MakeMove()" value="MakeMove"/>
+    <input type="button" onclick="ClearField()" value="ClearField"/>
+    <input type="button" onclick="GetPlaner()" value="GetPlaner" />
+    <br><br>
+    <form id="Field" style="line-height: 0px">Form "Field"</form>
+    <br>
+    <a href="/Life">Назад</a>
+</body>
+</html>

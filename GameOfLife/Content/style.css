@@ -1,0 +1,15 @@
+﻿.dead, .alive {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+}
+
+.dead {
+    border: 1px inset gray;
+    background: darkslategray;
+}
+
+.alive {
+    border: 1px outset gray;
+    background: yellow;
+}

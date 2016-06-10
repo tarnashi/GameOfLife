@@ -1,0 +1,66 @@
+﻿@model GameOfLife.GameClasses.Field
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Игра</title>
+</head>
+<body>
+<div>
+    @{
+        for (int i = 0; i <= @Model.lenght - 1; i++)
+        {
+            for (int j = 0; j <= @Model.width - 1; j++)
+            {
+                if (@Model[i, j])
+                {
+                    <text>1</text>
+                }
+                else
+                {
+                    <text>0</text>
+                }
+            }
+            <br/>
+        }
+    }
+</div>
+@*@using (Html.BeginForm("ChangeCell", "Life", FormMethod.Post))
+    {
+        for (int i = 0; i <= @Model.lenght - 1; i++)
+        {
+            for (int j = 0; j <= @Model.width - 1; j++)
+            {
+                if (@Model[i, j])
+                {
+                    <button>+</button>
+                }
+                else
+                {
+                    <button>&nbsp;</button>
+                }
+            }
+            <br />
+        }
+    }*@
+
+@using (Html.BeginForm("ChangeCell", "Life", FormMethod.Post))
+{
+
+}
+
+<form action="/Life/ChangeCell" method="post">
+    <input type="text" placeholder="x" name="x"/>
+    <input type="text" placeholder="y" name="y"/>
+    <input type="submit" value="Поменять значение клетки"/>
+</form>
+<form>
+    <button formaction="/Life/MakeMove">Сделать ход</button>
+</form>
+</body>
+</html>
