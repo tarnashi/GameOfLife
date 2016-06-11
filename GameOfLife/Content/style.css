@@ -1,15 +1,22 @@
-﻿.dead, .alive {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-}
-
-.dead {
-    border: 1px inset gray;
-    background: darkslategray;
-}
-
-.alive {
+﻿.dead, .alive1, .alive2, .alive3 {
     border: 1px outset gray;
-    background: yellow;
+    background: lightgoldenrodyellow;
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+}
+
+.alive1 {
+    background-image: url('../img/alive1.png');
+    background-size: 100%;
+}
+
+.alive2 {
+    background-image: url('../img/alive2.png');
+    background-size: 100%;
+}
+
+.alive3 {
+    background-image: url('../img/alive3.png');
+    background-size: 100%;
 }
