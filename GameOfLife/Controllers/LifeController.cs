@@ -65,7 +65,7 @@ namespace GameOfLife.Controllers
             var CurF = (Field) Session["F"];
             CurF.ArrayCurrent[x, y] = !CurF.ArrayCurrent[x, y];
             Session["F"] = CurF;
-            return this.Json(CurF, JsonRequestBehavior.AllowGet);
+            return Json("");
         }
 
         [HttpGet]

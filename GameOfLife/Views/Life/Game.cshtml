@@ -51,8 +51,13 @@
                 type: "POST",
                 data: "x=" + x + "&y=" + y,
                 cashe: false,
-                success: function(data) {
-                    DrawField(data);
+                success: function () {
+                    var elem = document.getElementById("x" + x + "y" + y);
+                    if (elem.getAttribute("class") == "dead") {
+                        elem.setAttribute("class", "alive" + String(Math.floor(Math.random() * 3 + 1)));
+                    } else {
+                        elem.setAttribute("class", "dead");
+                    }
                 },
             });
         }
@@ -103,8 +108,8 @@
                             url: "/Life/GetPlaner",
                             type: "GET",
                             cashe: false,
-                            success: function (data) {
-                                DrawField(data);
+                            success: function (data2) {
+                                DrawField(data2);
                             },
                         });
                     }
