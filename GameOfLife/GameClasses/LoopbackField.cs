@@ -19,46 +19,46 @@ namespace GameOfLife.GameClasses
             //три слева
             int x1 = (x == 0) ? width - 1 : x - 1;
             int y1 = (y == 0) ? height - 1 : y - 1;
-            if (ArrayCurrent[x1, y1])
+            if (CurrentField[x1, y1])
             {
                 n++;
             }
             y1 = y;
-            if (ArrayCurrent[x1, y1])
+            if (CurrentField[x1, y1])
             {
                 n++;
             }
             y1 = (y == height-1) ? 0 : y + 1;
-            if (ArrayCurrent[x1, y1])
+            if (CurrentField[x1, y1])
             {
                 n++;
             }
             //два по центру
             x1 = x;
             y1 = (y == 0) ? height - 1 : y - 1;
-            if (ArrayCurrent[x1, y1])
+            if (CurrentField[x1, y1])
             {
                 n++;
             }
             y1 = (y == height - 1) ? 0 : y + 1;
-            if (ArrayCurrent[x1, y1])
+            if (CurrentField[x1, y1])
             {
                 n++;
             }
             //три справа
             x1 = (x == width - 1) ? 0 : x + 1;
             y1 = (y == 0) ? height - 1 : y - 1;
-            if (ArrayCurrent[x1, y1])
+            if (CurrentField[x1, y1])
             {
                 n++;
             }
             y1 = y;
-            if (ArrayCurrent[x1, y1])
+            if (CurrentField[x1, y1])
             {
                 n++;
             }
             y1 = (y == height - 1) ? 0 : y + 1;
-            if (ArrayCurrent[x1, y1])
+            if (CurrentField[x1, y1])
             {
                 n++;
             }

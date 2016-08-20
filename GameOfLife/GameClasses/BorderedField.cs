@@ -21,18 +21,18 @@ namespace GameOfLife.GameClasses
             {
                 if (y != 0)
                 {
-                    if (ArrayCurrent[x - 1, y - 1])
+                    if (CurrentField[x - 1, y - 1])
                     {
                         n++;
                     }
                 }
-                if (ArrayCurrent[x - 1, y])
+                if (CurrentField[x - 1, y])
                 {
                     n++;
                 }
                 if (y != height - 1)
                 {
-                    if (ArrayCurrent[x - 1, y + 1])
+                    if (CurrentField[x - 1, y + 1])
                     {
                         n++;
                     }
@@ -41,14 +41,14 @@ namespace GameOfLife.GameClasses
             //два по центру
             if (y != 0)
             {
-                if (ArrayCurrent[x, y - 1])
+                if (CurrentField[x, y - 1])
                 {
                     n++;
                 }
             }
             if (y != height - 1)
             {
-                if (ArrayCurrent[x, y + 1])
+                if (CurrentField[x, y + 1])
                 {
                     n++;
                 }
@@ -58,18 +58,18 @@ namespace GameOfLife.GameClasses
             {
                 if (y != 0)
                 {
-                    if (ArrayCurrent[x + 1, y - 1])
+                    if (CurrentField[x + 1, y - 1])
                     {
                         n++;
                     }
                 }
-                if (ArrayCurrent[x + 1, y])
+                if (CurrentField[x + 1, y])
                 {
                     n++;
                 }
                 if (y != height - 1)
                 {
-                    if (ArrayCurrent[x + 1, y + 1])
+                    if (CurrentField[x + 1, y + 1])
                     {
                         n++;
                     }

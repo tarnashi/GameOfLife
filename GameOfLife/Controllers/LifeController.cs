@@ -9,7 +9,7 @@ namespace GameOfLife.Controllers
 {
     public class LifeController : Controller
     {
-        private Field F; //подумать, зачем это надо?
+        private Field myField; //подумать, зачем это надо?
 
         public ActionResult Index()
         {
@@ -17,17 +17,17 @@ namespace GameOfLife.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddField(int x, int y, bool f)
+        public ActionResult AddField(int x, int y, bool flagBordered)
         {
-            if (f)
+            if (flagBordered)
             {
-                F = new BorderedField(x, y);
+                myField = new BorderedField(x, y);
             }
             else
             {
-                F = new LoopbackField(x, y);
+                myField = new LoopbackField(x, y);
             }
-            Session["F"] = F;
+            Session["mySession"] = myField;
             return RedirectToAction("Game", "Life");
         }
 
@@ -39,49 +39,49 @@ namespace GameOfLife.Controllers
         [HttpGet]
         public JsonResult ClearField()
         {
-            var CurF = (Field)Session["F"];
-            CurF.Clear();
-            Session["F"] = CurF;
-            return this.Json(CurF, JsonRequestBehavior.AllowGet);
+            myField = (Field)Session["mySession"];
+            myField.Clear();
+            Session["mySession"] = myField;
+            return this.Json(myField, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         public JsonResult GetPlaner()
         {
-            var CurF = (Field)Session["F"];
-            CurF.Clear();
-            CurF.ArrayCurrent[1, 0] = true;
-            CurF.ArrayCurrent[2, 1] = true;
-            CurF.ArrayCurrent[0, 2] = true;
-            CurF.ArrayCurrent[1, 2] = true;
-            CurF.ArrayCurrent[2, 2] = true;
-            Session["F"] = CurF;
-            return this.Json(CurF, JsonRequestBehavior.AllowGet);
+            myField = (Field)Session["mySession"];
+            myField.Clear();
+            myField.CurrentField[1, 0] = true;
+            myField.CurrentField[2, 1] = true;
+            myField.CurrentField[0, 2] = true;
+            myField.CurrentField[1, 2] = true;
+            myField.CurrentField[2, 2] = true;
+            Session["mySession"] = myField;
+            return this.Json(myField, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
         public JsonResult ChangeCell(int x, int y)
         {
-            var CurF = (Field) Session["F"];
-            CurF.ArrayCurrent[x, y] = !CurF.ArrayCurrent[x, y];
-            Session["F"] = CurF;
+            myField = (Field) Session["mySession"];
+            myField.CurrentField[x, y] = !myField.CurrentField[x, y];
+            Session["mySession"] = myField;
             return Json("");
         }
 
         [HttpGet]
         public JsonResult GetCurrentField()
         {
-            var CurF = (Field) Session["F"];
-            return this.Json(CurF, JsonRequestBehavior.AllowGet);
+            myField = (Field) Session["mySession"];
+            return this.Json(myField, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         public JsonResult MakeMove()
         {
-            var CurF = (Field)Session["F"];
-            CurF.MakeMove();
-            Session["F"] = CurF;
-            return this.Json(CurF, JsonRequestBehavior.AllowGet);
+            myField = (Field)Session["mySession"];
+            myField.MakeMove();
+            Session["mySession"] = myField;
+            return this.Json(myField, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -9,23 +9,26 @@ namespace GameOfLife.GameClasses
     {
         //ПОЛЯ
         //Размеры поля
-        public int width, height;
+        public int width { get; protected set; }
+        public int height { get; protected set; }
         //Два массива: основной и буферный
-        public bool[,] ArrayCurrent;
+        public bool[,] CurrentField { get; protected set; }
+        //trnv note 
+        //закомментил, пока не используется
         //Режим поля: добавление, удаление, заблокировано
-        public byte mode;
+        //public byte mode;
 
         public Field(int x, int y)
         {
             width = x;
             height = y;
-            ArrayCurrent = new bool[x, y];
+            CurrentField = new bool[x, y];
             Clear();
         }
 
         public bool this[int x, int y]
         {
-            get { return ArrayCurrent[x, y]; }
+            get { return CurrentField[x, y]; }
         }
 
         public void Clear()
@@ -33,28 +36,28 @@ namespace GameOfLife.GameClasses
             for (int x = 0; x < width; x++)
                 for (int y = 0; y < height; y++)
                 {
-                    ArrayCurrent[x, y] = false;
+                    CurrentField[x, y] = false;
                 }
         }
 
         public void MakeMove()
         {
-            bool[,] ArrayTMP = new bool[width, height];
+            bool[,] FieldTMP = new bool[width, height];
             for (int x = 0; x < width; x++)
                 for (int y = 0; y < height; y++)
                 {
                     byte localNubmerOfNeighbors = NumberOfNeighbors(x, y);
-                    if (ArrayCurrent[x, y])
+                    if (CurrentField[x, y])
                     {
                         if (localNubmerOfNeighbors < 2 || localNubmerOfNeighbors > 3)
                         {
                             //Если клетка жива и имеет меньше двух или больше трех живых соседей, она становится мертвой
-                            ArrayTMP[x, y] = false;
+                            FieldTMP[x, y] = false;
                         }
                         else
                         {
                             //Оставляем как есть
-                            ArrayTMP[x, y] = ArrayCurrent[x, y];
+                            FieldTMP[x, y] = CurrentField[x, y];
                         }
                     }
                     else
@@ -62,18 +65,18 @@ namespace GameOfLife.GameClasses
                         if (localNubmerOfNeighbors == 3)
                         {
                             //Если клетка мертва и имеет трех живых соседей, она становится живой
-                            ArrayTMP[x, y] = true;
+                            FieldTMP[x, y] = true;
                         }
                         else
                         {
                             //Оставляем как есть
-                            ArrayTMP[x, y] = ArrayCurrent[x, y];
+                            FieldTMP[x, y] = CurrentField[x, y];
                         }
                     }
                 }
 
             //Просто меняем ссылку на массив. Не пахнет ли такой вариант?
-            ArrayCurrent = ArrayTMP;
+            CurrentField = FieldTMP;
 
         }
 
