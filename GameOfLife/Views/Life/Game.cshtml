@@ -23,13 +23,13 @@
             });
         }
 
-        function DrawField(F) {
+        function DrawField(field) {
             var st = "";
-            //идем построчно; в F.ArrayCurrent же массив хранится постолбцово
-            for (var j = 0; j < F.height; j++) {
-                for (var i = 0; i < F.width; i++) {
+            //идем построчно; в field.CurrentArray же массив хранится постолбцово
+            for (var j = 0; j < field.height; j++) {
+                for (var i = 0; i < field.width; i++) {
                     st += "<div id='x" + i + "y" + j + "' onclick='ChangeCell(" + i + ", " + j + ")'";
-                    if (F.ArrayCurrent[i * F.height + j] == true) {
+                    if (field.CurrentField[i * field.height + j] == true) {
                         st += " class='alive" +
                             +String(Math.floor(Math.random() * 3 + 1)) +
                             "'>";
