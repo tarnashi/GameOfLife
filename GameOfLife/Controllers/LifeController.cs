@@ -9,7 +9,7 @@ namespace GameOfLife.Controllers
 {
     public class LifeController : Controller
     {
-        private Field myField; //подумать, зачем это надо?
+        private Field myField;
 
         public ActionResult Index()
         {
@@ -49,12 +49,7 @@ namespace GameOfLife.Controllers
         public JsonResult GetPlaner()
         {
             myField = (Field)Session["mySession"];
-            myField.Clear();
-            myField.CurrentField[1, 0] = true;
-            myField.CurrentField[2, 1] = true;
-            myField.CurrentField[0, 2] = true;
-            myField.CurrentField[1, 2] = true;
-            myField.CurrentField[2, 2] = true;
+            myField.SetPlaner();
             Session["mySession"] = myField;
             return this.Json(myField, JsonRequestBehavior.AllowGet);
         }
@@ -63,7 +58,7 @@ namespace GameOfLife.Controllers
         public JsonResult ChangeCell(int x, int y)
         {
             myField = (Field) Session["mySession"];
-            myField.CurrentField[x, y] = !myField.CurrentField[x, y];
+            myField.ChangeCell(x, y);
             Session["mySession"] = myField;
             return Json("");
         }

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
+using System.Web.Mvc;
+using System.Web.Helpers;
+
 namespace GameOfLife.GameClasses
 {
     public abstract class Field
@@ -11,7 +14,7 @@ namespace GameOfLife.GameClasses
         //Размеры поля
         public int width { get; protected set; }
         public int height { get; protected set; }
-        //Два массива: основной и буферный
+        //массив с полем
         public bool[,] CurrentField { get; protected set; }
         //trnv note 
         //закомментил, пока не используется
@@ -78,6 +81,21 @@ namespace GameOfLife.GameClasses
             //Просто меняем ссылку на массив. Не пахнет ли такой вариант?
             CurrentField = FieldTMP;
 
+        }
+
+        public void ChangeCell(int x, int y)
+        {
+            CurrentField[x, y] = !CurrentField[x, y];
+        }
+
+        public void SetPlaner()
+        {
+            Clear();
+            CurrentField[1, 0] = true;
+            CurrentField[2, 1] = true;
+            CurrentField[0, 2] = true;
+            CurrentField[1, 2] = true;
+            CurrentField[2, 2] = true;
         }
 
         public abstract byte NumberOfNeighbors(int x, int y);

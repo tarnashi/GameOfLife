@@ -17,7 +17,7 @@
                 url: "/Life/GetCurrentField",
                 type: "GET",
                 cashe: false,
-                success: function(data) {
+                success: function (data) {
                     DrawField(data);
                 },
             });
@@ -25,7 +25,7 @@
 
         function DrawField(field) {
             var st = "";
-            //идем построчно; в field.CurrentArray же массив хранится постолбцово
+            //идем построчно; в field.CurrentField же массив хранится постолбцово
             for (var j = 0; j < field.height; j++) {
                 for (var i = 0; i < field.width; i++) {
                     st += "<div id='x" + i + "y" + j + "' onclick='ChangeCell(" + i + ", " + j + ")'";
