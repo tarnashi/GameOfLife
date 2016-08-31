@@ -17,19 +17,19 @@
                 url: "/Life/GetCurrentField",
                 type: "GET",
                 cashe: false,
-                success: function (data) {
-                    DrawField(data);
+                success: function (response) {
+                    DrawField(response.data);
                 },
             });
         }
 
-        function DrawField(field) {
+        function DrawField(response) {
             var st = "";
-            //идем построчно; в field.CurrentField же массив хранится постолбцово
-            for (var j = 0; j < field.height; j++) {
-                for (var i = 0; i < field.width; i++) {
+            //идем построчно; в response.CurrentField же массив хранится постолбцово
+            for (var j = 0; j < response.height; j++) {
+                for (var i = 0; i < response.width; i++) {
                     st += "<div id='x" + i + "y" + j + "' onclick='ChangeCell(" + i + ", " + j + ")'";
-                    if (field.CurrentField[i * field.height + j] == true) {
+                    if (response.CurrentField[i * response.height + j] == true) {
                         st += " class='alive" +
                             +String(Math.floor(Math.random() * 3 + 1)) +
                             "'>";
@@ -51,12 +51,17 @@
                 type: "POST",
                 data: "x=" + x + "&y=" + y,
                 cashe: false,
-                success: function () {
-                    var elem = document.getElementById("x" + x + "y" + y);
-                    if (elem.getAttribute("class") == "dead") {
-                        elem.setAttribute("class", "alive" + String(Math.floor(Math.random() * 3 + 1)));
-                    } else {
-                        elem.setAttribute("class", "dead");
+                success: function (response) {
+                    if (response.success == false) {
+                        alert("Произошла ошибка!")
+                    }
+                    else {
+                        var elem = document.getElementById("x" + x + "y" + y);
+                        if (elem.getAttribute("class") == "dead") {
+                            elem.setAttribute("class", "alive" + String(Math.floor(Math.random() * 3 + 1)));
+                        } else {
+                            elem.setAttribute("class", "dead");
+                        }
                     }
                 },
             });
@@ -69,8 +74,8 @@
                 url: "/Life/MakeMove",
                 type: "GET",
                 cashe: false,
-                success: function(data) {
-                    DrawField(data);
+                success: function (response) {
+                    DrawField(response.data);
                 },
             });
         }
@@ -82,36 +87,25 @@
                 url: "/Life/ClearField",
                 type: "GET",
                 cashe: false,
-                success: function (data) {
-                    DrawField(data);
+                success: function (response) {
+                    DrawField(response.data);
                 },
             });
         }
 
-        //trnv note
-        //переписать (проверка размера поля дожна быть не запросом, а внутри GetPlaner в контроллере) или убрать
         function GetPlaner() {
             $.ajax
             ({
                 dataType: "json",
-                url: "/Life/GetCurrentField",
+                url: "/Life/GetPlaner",
                 type: "GET",
                 cashe: false,
-                success: function (data) {
-                    if (data.width < 3 || data.height < 3) {
-                        alert('Слишком маленькое поле :(');
-                        return;
-                    } else {
-                        $.ajax
-                        ({
-                            dataType: "json",
-                            url: "/Life/GetPlaner",
-                            type: "GET",
-                            cashe: false,
-                            success: function (data2) {
-                                DrawField(data2);
-                            },
-                        });
+                success: function (response) {
+                    if (response.success == false) {
+                        alert(response.message);
+                    }
+                    else {
+                        DrawField(response.data);
                     }
                 },
             });

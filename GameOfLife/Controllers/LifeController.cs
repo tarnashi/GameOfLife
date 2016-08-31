@@ -7,7 +7,7 @@ using GameOfLife.GameClasses;
 
 namespace GameOfLife.Controllers
 {
-    public class LifeController : Controller
+    public class LifeController : BaseController
     {
         private Field myField;
 
@@ -19,7 +19,7 @@ namespace GameOfLife.Controllers
         [HttpPost]
         public ActionResult AddField(int x, int y, bool flagBordered)
         {
-            if (flagBordered)
+            if (flagBordered == true)
             {
                 myField = new BorderedField(x, y);
             }
@@ -42,16 +42,22 @@ namespace GameOfLife.Controllers
             myField = (Field)Session["mySession"];
             myField.Clear();
             Session["mySession"] = myField;
-            return this.Json(myField, JsonRequestBehavior.AllowGet);
+            //return this.Json(myField, JsonRequestBehavior.AllowGet);
+            return JsonResponse(true, myField);
         }
 
         [HttpGet]
         public JsonResult GetPlaner()
         {
             myField = (Field)Session["mySession"];
+            if (myField.width < 3 || myField.height < 3)
+            {
+                return JsonResponse(false, errorMessage: "Поле слишком маленькое :(");
+            }
             myField.SetPlaner();
             Session["mySession"] = myField;
-            return this.Json(myField, JsonRequestBehavior.AllowGet);
+            //return this.Json(myField, JsonRequestBehavior.AllowGet);
+            return JsonResponse(true, myField);
         }
 
         [HttpPost]
@@ -60,14 +66,15 @@ namespace GameOfLife.Controllers
             myField = (Field) Session["mySession"];
             myField.ChangeCell(x, y);
             Session["mySession"] = myField;
-            return Json("");
+            return JsonResponse(true);
         }
 
         [HttpGet]
         public JsonResult GetCurrentField()
         {
             myField = (Field) Session["mySession"];
-            return this.Json(myField, JsonRequestBehavior.AllowGet);
+            //return this.Json(myField, JsonRequestBehavior.AllowGet);
+            return JsonResponse(true, myField);
         }
 
         [HttpGet]
@@ -76,7 +83,8 @@ namespace GameOfLife.Controllers
             myField = (Field)Session["mySession"];
             myField.MakeMove();
             Session["mySession"] = myField;
-            return this.Json(myField, JsonRequestBehavior.AllowGet);
+            //return this.Json(myField, JsonRequestBehavior.AllowGet);
+            return JsonResponse(true, myField);
         }
     }
 }
