@@ -8,29 +8,20 @@ namespace GameOfLife.Controllers
 {
     public class BaseController : Controller
     {
-        protected JsonResult JsonResponse(bool flagSuccess, object data = null, string errorMessage = "")
+        private JsonResult JsonResponse(bool flagSuccess, object data = null, string message = "")
         {
-            if (flagSuccess == true)
-            {
-                return SuccessJsonResponse(data);
-            }
-            else
-            {
-                return FailJsonResponse(errorMessage);
-            }
-        }
-
-        protected JsonResult SuccessJsonResponse(object data)
-        {
-            var response = new { success = true, data = data };
+            var response = new { success = flagSuccess, data = data, message = message };
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
-        protected JsonResult FailJsonResponse(string errorMessage)
+        protected JsonResult SuccessJsonResponse(object data = null, string message = "")
         {
-            var response = new { success = false, message = errorMessage };
-            return Json(response, JsonRequestBehavior.AllowGet);
+            return JsonResponse(true, data, message);
         }
 
+        protected JsonResult FailJsonResponse(string message = "", object data = null)
+        {
+            return JsonResponse(false, data, message);
+        }
     }
 }

@@ -9,8 +9,6 @@ namespace GameOfLife.Controllers
 {
     public class LifeController : BaseController
     {
-        private Field myField;
-
         public ActionResult Index()
         {
             return View();
@@ -19,6 +17,7 @@ namespace GameOfLife.Controllers
         [HttpPost]
         public ActionResult AddField(int x, int y, bool flagBordered)
         {
+            Field myField;
             if (flagBordered == true)
             {
                 myField = new BorderedField(x, y);
@@ -39,52 +38,53 @@ namespace GameOfLife.Controllers
         [HttpGet]
         public JsonResult ClearField()
         {
+            Field myField;
             myField = (Field)Session["mySession"];
             myField.Clear();
             Session["mySession"] = myField;
-            //return this.Json(myField, JsonRequestBehavior.AllowGet);
-            return JsonResponse(true, myField);
+            return SuccessJsonResponse(myField);
         }
 
         [HttpGet]
         public JsonResult GetPlaner()
         {
+            Field myField;
             myField = (Field)Session["mySession"];
             if (myField.width < 3 || myField.height < 3)
             {
-                return JsonResponse(false, errorMessage: "Поле слишком маленькое :(");
+                return FailJsonResponse("Поле слишком маленькое :(");
             }
             myField.SetPlaner();
             Session["mySession"] = myField;
-            //return this.Json(myField, JsonRequestBehavior.AllowGet);
-            return JsonResponse(true, myField);
+            return SuccessJsonResponse(myField);
         }
 
         [HttpPost]
         public JsonResult ChangeCell(int x, int y)
         {
+            Field myField;
             myField = (Field) Session["mySession"];
             myField.ChangeCell(x, y);
             Session["mySession"] = myField;
-            return JsonResponse(true);
+            return SuccessJsonResponse();
         }
 
         [HttpGet]
         public JsonResult GetCurrentField()
         {
+            Field myField;
             myField = (Field) Session["mySession"];
-            //return this.Json(myField, JsonRequestBehavior.AllowGet);
-            return JsonResponse(true, myField);
+            return SuccessJsonResponse(myField);
         }
-
+        
         [HttpGet]
         public JsonResult MakeMove()
         {
+            Field myField;
             myField = (Field)Session["mySession"];
             myField.MakeMove();
             Session["mySession"] = myField;
-            //return this.Json(myField, JsonRequestBehavior.AllowGet);
-            return JsonResponse(true, myField);
+            return SuccessJsonResponse(myField);
         }
     }
 }
